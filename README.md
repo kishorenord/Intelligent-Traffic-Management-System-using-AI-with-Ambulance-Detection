@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Traffic Light Dashboard
 
 Quick setup
@@ -32,3 +33,6 @@ Running tests (optional)
    pytest -q
 
 The repository includes a basic unit test for `TrafficLogic` under `tests/` as a smoke check.
+=======
+# Intelligent-Traffic-Management-System-using-AI-with-Ambulance-Detection
+>>>>>>> 1106944a8383a419b7fbba430c32e025cdee9dc9
