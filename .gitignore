@@ -1,0 +1,22 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+
+# environments
+.venv/
+venv/
+
+# VS Code
+.vscode/
+
+# dataset/video samples
+Video Samples/*.mp4
+uploads/*.mp4
+
+# database
+users.db
+
+# others
+*.log
