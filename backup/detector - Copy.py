@@ -8,7 +8,7 @@ class TrafficDetector:
         """
         Initializes the object detector with TWO YOLOv8 models.
         :param vehicle_model_path: Path to the standard vehicle model (e.g., 'yolov8n.pt')
-        :param ambulance_model_path: Path to the custom ambulance model (e.g., 'best.pt')
+        :param ambulance_model_path: Path to the custom ambulance model (e.g., 'ambulance_model.pt')
         """
         # Load the standard model for general vehicles
         self.vehicle_model = YOLO(vehicle_model_path)

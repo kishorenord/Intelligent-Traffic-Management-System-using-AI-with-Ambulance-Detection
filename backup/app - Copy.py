@@ -23,11 +23,11 @@ try:
     # Load both models. 'yolov8n.pt' will be auto-downloaded.
     detector = TrafficDetector(
         vehicle_model_path='yolov8n.pt',
-        ambulance_model_path='best.pt' # Your custom model
+        ambulance_model_path='ambulance_model.pt' # Your custom model
     )
 except Exception as e:
     print(f"Error loading YOLO models: {e}")
-    print("Please make sure 'best.pt' is in the project directory.")
+    print("Please make sure 'ambulance_model.pt' is in the project directory.")
     detector = None
 
 traffic_manager = TrafficLogic()

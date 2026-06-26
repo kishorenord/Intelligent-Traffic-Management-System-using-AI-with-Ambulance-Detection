@@ -60,8 +60,8 @@ class TrafficLogic:
         with self.lock:
             self.lanes[lane_id]['density'] = density
             self.lanes[lane_id]['ambulance'] = ambulance
-            # Store the latest snapshot of vehicle types
-            self.lanes[lane_id]['current_vehicle_counts'] = detailed_counts
+            # Store a copy of the latest snapshot of vehicle types (protect against mutation)
+            self.lanes[lane_id]['current_vehicle_counts'] = detailed_counts.copy() if isinstance(detailed_counts, dict) else self._create_empty_count()
 
     def get_system_state(self):
         """Called by the main dashboard API."""
@@ -93,9 +93,18 @@ class TrafficLogic:
     def get_analysis_data(self):
         """Called by the new analysis page API."""
         with self.lock:
-            # Send all the data needed for the graphs
+            # Merge in latest snapshot counts so dashboard has valid data before cycle-based totals accumulate.
+            merged_cumulative = {}
+            for i in range(1, 5):
+                lane_total = self.cumulative_counts[i].copy()
+                current_counts = self.lanes[i].get('current_vehicle_counts', self._create_empty_count())
+                for vehicle, count in current_counts.items():
+                    lane_total[vehicle] = lane_total.get(vehicle, 0) + count
+                merged_cumulative[i] = lane_total
+
             return {
-                'cumulative_counts': self.cumulative_counts,
+                'cumulative_counts': merged_cumulative,
+                'current_vehicle_counts': {i: self.lanes[i].get('current_vehicle_counts', self._create_empty_count()) for i in range(1, 5)},
                 'current_density': {i: self.lanes[i]['density'] for i in range(1, 5)},
                 'last_green_times': self.last_green_times
             }

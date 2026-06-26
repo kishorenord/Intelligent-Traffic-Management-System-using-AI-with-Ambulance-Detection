@@ -12,7 +12,7 @@ Quick setup
 
    pip install -r requirements.txt
 
-4. Place the model files (`yolov8n.pt`, `best.pt`) in the project root (they are already present in this repo).
+4. Place the model files (`yolov8n.pt`, `ambulance_model.pt`) in the project root (they are already present in this repo).
 
 5. Run the app:
 

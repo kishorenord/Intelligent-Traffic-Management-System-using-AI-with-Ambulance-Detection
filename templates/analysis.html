@@ -25,7 +25,7 @@
             background: #2a2a57; /* Dark background to match theme */
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            border: 1px solid #4a4a8a;
+            border: 1px asolid #4a4a8a;
         }
         .chart-container h2 {
             color: #fff; /* White text for titles */
@@ -231,7 +231,7 @@
                 const data = await response.json();
 
                 // Update all 3 sections with the new data
-                updateVehicleTables(data.cumulative_counts);
+                updateVehicleTables(data.cumulative_counts, data.current_vehicle_counts);
                 updateDensityGraph(data.current_density);
                 updateEfficiencyGraph(data.last_green_times);
 
@@ -243,16 +243,22 @@
         /**
          * Updates the "Cumulative Vehicles" table
          */
-        function updateVehicleTables(cumulativeData) {
+        function updateVehicleTables(cumulativeData, currentData) {
             const tableBody = document.getElementById('vehicle-counts-body');
             tableBody.innerHTML = ''; // Clear existing rows
 
             for (let i = 1; i <= 4; i++) {
-                const laneData = cumulativeData[i];
+                let laneData = cumulativeData[i];
+                const currentLaneData = currentData ? currentData[i] : null;
+                
+                // If cumulative count stays at zero, show the live snapshot instead
+                if (!laneData || Object.values(laneData).every(v => v === 0)) {
+                    laneData = currentLaneData || {'Car':0,'Bus':0,'Truck':0,'Motorcycle':0,'Ambulance':0};
+                }
+
                 let total = 0;
-                
                 let rowHtml = `<tr><td><strong>Lane ${i}</strong></td>`;
-                
+
                 vehicleTypes.forEach(vehicle => {
                     const count = laneData[vehicle] || 0;
                     total += count;

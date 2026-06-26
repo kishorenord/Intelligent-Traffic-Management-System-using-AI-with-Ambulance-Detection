@@ -26,7 +26,7 @@ class TrafficDetector:
             0: 'Ambulance'
         }
         
-        self.ambulance_threshold = 0.70
+        self.ambulance_threshold = 0.50
         
         # --- Plotting Config ---
         all_names = list(self.vehicle_class_names.values()) + list(self.ambulance_class_names.values())
